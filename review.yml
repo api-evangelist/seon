@@ -1,0 +1,63 @@
+aid: seon
+name: SEON
+review:
+  question: Does SEON expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-25'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    SEON's fraud-prevention platform is delivered entirely as synchronous
+    request/response REST endpoints under https://api.seon.io/SeonRestService.
+    No HTTP Server-Sent Events (SSE) stream and no WebSocket surface are
+    documented, so no AsyncAPI document was authored.
+findings:
+  summary: |
+    SEON does not publish a documented public WebSocket API. The SEON REST API
+    exposes only HTTPS request/response endpoints under
+    https://api.seon.io/SeonRestService, authenticated with the X-API-KEY
+    header. The Fraud, Email, Phone, AML, and Transaction Label endpoints are
+    POST/PUT calls; the IP API is a GET call with the IP in the path. Real-time
+    fraud scoring is synchronous - the client receives the fraud_score, state,
+    and applied_rules in the HTTP response. SEON also offers outbound webhooks
+    (HTTP callbacks the customer hosts) for asynchronous notifications, but
+    those are not a SEON-hosted streaming endpoint. No realtime, bidirectional,
+    or streaming WebSocket (ws:// or wss://) endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.seon.io/SeonRestService
+      documented: true
+    - protocol: Webhooks
+      scheme: https
+      note: SEON sends outbound HTTP callbacks to a customer-hosted URL; this is not a SEON-hosted streaming or WebSocket transport.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in SEON's API reference or product docs as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.seon.io/SeonRestService/fraud-api/v2.0
+    - POST https://api.seon.io/SeonRestService/email-api/v3
+    - POST https://api.seon.io/SeonRestService/phone-api/v2
+    - GET  https://api.seon.io/SeonRestService/ip-api/v1/{ip}
+    - POST https://api.seon.io/SeonRestService/aml-api/v1
+    - PUT  https://api.seon.io/SeonRestService/fraud-api/transaction-label/v2
+sources:
+  - url: https://docs.seon.io/api-reference
+    type: APIReference
+    note: Lists all product APIs; all are HTTPS REST under /SeonRestService.
+  - url: https://docs.seon.io/api-reference/fraud-api
+    type: Documentation
+    note: Fraud API is a synchronous POST returning fraud_score, state, and applied_rules; no WebSocket.
+  - url: https://docs.seon.io/api-reference/ip-api
+    type: Documentation
+    note: IP API is a GET with the IP in the path; no streaming transport.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or SSE protocol surface exists. SEON's scoring is synchronous
+    REST and its only asynchronous mechanism is customer-hosted outbound
+    webhooks, which is not modeled as AsyncAPI here. apis.yml documents the
+    REST endpoints and X-API-KEY authentication.

@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEON REST API",
+    "description": "SEON fraud-prevention and AML APIs (SeonRestService). All requests authenticate with an X-API-KEY header carrying the account license key.",
+    "version": "2.0"
+  },
+  "servers": [
+    { "url": "https://api.seon.io", "description": "EU region (default)" },
+    { "url": "https://api.us-east-1-main.seon.io", "description": "US region" },
+    { "url": "https://api.ap-southeast-1-main.seon.io", "description": "APAC region" },
+    { "url": "https://api.me-central-1-main.seon.io", "description": "Middle East region" }
+  ],
+  "auth": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "X-API-KEY"
+  },
+  "requests": [
+    {
+      "name": "Fraud API",
+      "method": "POST",
+      "url": "https://api.seon.io/SeonRestService/fraud-api/v2.0",
+      "headers": { "Content-Type": "application/json" },
+      "body": {
+        "config": { "ip": {}, "email": {}, "phone": {} },
+        "email": "user@example.com",
+        "phone_number": "+1234567890",
+        "ip": "1.1.1.1",
+        "transaction_amount": 100.0,
+        "transaction_currency": "USD",
+        "session": "ENCRYPTED_DEVICE_FINGERPRINT"
+      },
+      "description": "Combined fraud scoring; returns fraud_score, state, and applied_rules."
+    },
+    {
+      "name": "Email API",
+      "method": "POST",
+      "url": "https://api.seon.io/SeonRestService/email-api/v3",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "user@example.com" },
+      "description": "Email enrichment and risk scoring."
+    },
+    {
+      "name": "Phone API",
+      "method": "POST",
+      "url": "https://api.seon.io/SeonRestService/phone-api/v2",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "phone": "+1234567890" },
+      "description": "Phone enrichment and risk scoring."
+    },
+    {
+      "name": "IP API",
+      "method": "GET",
+      "url": "https://api.seon.io/SeonRestService/ip-api/v1/1.1.1.1",
+      "description": "IP intelligence; the IP address is supplied in the path."
+    },
+    {
+      "name": "AML API",
+      "method": "POST",
+      "url": "https://api.seon.io/SeonRestService/aml-api/v1",
+      "headers": { "Content-Type": "application/json" },
+      "body": {
+        "user_fullname": "John Doe",
+        "user_dob": "1980-01-01",
+        "user_country": "US"
+      },
+      "description": "AML screening against PEP, sanctions, crime, watchlist, and adverse-media sources."
+    },
+    {
+      "name": "Label Transactions",
+      "method": "PUT",
+      "url": "https://api.seon.io/SeonRestService/fraud-api/transaction-label/v2",
+      "headers": { "Content-Type": "application/json" },
+      "body": {
+        "transactions": [
+          { "transaction_id": "txn_123", "label": "fraud_detection_fraud" }
+        ]
+      },
+      "description": "Label up to 50 scored transactions to feed the Scoring Engine."
+    }
+  ]
+}

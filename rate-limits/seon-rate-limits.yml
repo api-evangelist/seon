@@ -1,0 +1,78 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: SEON
+providerId: seon
+created: '2026-06-25'
+modified: '2026-06-25'
+reconciled: false
+tags:
+- Fraud Prevention
+- Risk Scoring
+- Digital Footprint
+- AML
+- Identity
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  SEON enforces per-account request limits that vary by API, plan, and account
+  state. During the free trial, the Email API is documented as limited to 120
+  requests per minute; comparable per-minute caps apply to the other module
+  APIs and to the Fraud API. Paid Starter accounts are additionally bounded by
+  a monthly fraud-check allotment, while Premium accounts negotiate higher or
+  unlimited throughput. Specific per-API limits beyond the trial Email cap are
+  not fully reconciled in this artifact.
+notes: >-
+  Only the trial Email API cap (120/min) is explicitly documented; other
+  per-API and per-plan limits should be confirmed with SEON on reconciliation.
+sources:
+- https://docs.seon.io/api-reference/email-api
+- https://docs.seon.io/api-reference
+- https://seon.io/pricing/
+responseCodes:
+  throttled: 429
+limits:
+- name: Email API (Free Trial)
+  scope: account
+  metric: requests
+  limit: 120 per minute
+  notes: Documented free-trial cap on the Email API; paid limits differ.
+- name: Phone API
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-minute cap varies by plan and account state.
+- name: IP API
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-minute cap varies by plan and account state.
+- name: Fraud API
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Subject to plan throughput and, on Starter, the monthly fraud-check allotment.
+- name: AML API
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-minute cap varies by plan and account state.
+- name: Transaction Label API
+  scope: request
+  metric: transactions
+  limit: 50 per request
+  notes: Maximum 50 transactions may be labeled in a single batch request.
+- name: Starter Monthly Allotment
+  scope: account
+  metric: requests
+  limit: 2500 per month
+  notes: Indicative monthly fraud-check allotment on the Starter plan; confirm current value.
+policies:
+- name: Tiered Limits
+  description: Limits and allotments rise from free trial to Starter to custom Premium agreements.
+- name: Backoff Strategy
+  description: Clients should implement retry with exponential backoff and honor 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

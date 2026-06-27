@@ -1,0 +1,201 @@
+aid: seon
+url: https://raw.githubusercontent.com/api-evangelist/seon/refs/heads/main/apis.yml
+name: SEON
+kind: company
+description: SEON provides fraud prevention and anti-money-laundering APIs that combine
+  digital-footprint analysis, device fingerprinting, and machine-learning risk scoring.
+  The SEON REST API returns real-time fraud scores and enriched intelligence from an
+  email address, phone number, or IP address, plus a combined transaction Fraud API
+  and AML screening, accessed over HTTPS with an X-API-KEY header.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Fraud Prevention
+- Risk Scoring
+- Digital Footprint
+- AML
+- Identity
+created: '2026-06-25'
+modified: '2026-06-25'
+specificationVersion: '0.19'
+apis:
+- aid: seon:fraud-api
+  name: SEON Fraud API
+  tags:
+  - Fraud
+  - Risk Scoring
+  - Transactions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/fraud-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  properties:
+  - url: https://docs.seon.io/api-reference/fraud-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/fraud-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Combined end-to-end fraud scoring endpoint that ingests user, transaction,
+    payment, device, email, phone, and IP signals and returns a fraud_score, a state
+    decision, and the applied_rules that fired, enriched with email, phone, IP, BIN,
+    device, and AML details modules.
+- aid: seon:email-api
+  name: SEON Email API
+  tags:
+  - Email
+  - Digital Footprint
+  - Enrichment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/email-api
+  baseURL: https://api.seon.io/SeonRestService/email-api/v3
+  properties:
+  - url: https://docs.seon.io/api-reference/email-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/email-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Unlocks the digital footprint behind an email address - deliverability,
+    domain details, breach history, and registration on 250+ online platforms - returning
+    a machine-learning risk score and account aggregates.
+- aid: seon:phone-api
+  name: SEON Phone API
+  tags:
+  - Phone
+  - Digital Footprint
+  - Enrichment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/phone-api
+  baseURL: https://api.seon.io/SeonRestService/phone-api/v2
+  properties:
+  - url: https://docs.seon.io/api-reference/phone-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/phone-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Returns the digital footprint behind a phone number, including carrier
+    and HLR details, CNAM, telco attributes such as SIM-swap and porting history, account
+    aggregates, and a global network risk score.
+- aid: seon:ip-api
+  name: SEON IP API
+  tags:
+  - IP
+  - Proxy Detection
+  - Enrichment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/ip-api
+  baseURL: https://api.seon.io/SeonRestService/ip-api/v1
+  properties:
+  - url: https://docs.seon.io/api-reference/ip-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/ip-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Detects fake, harmful, and suspicious IP addresses - including Tor, VPN,
+    web, public, data-center, and residential proxies - with geolocation, ISP, open
+    ports, and a risk score for a given IPv4 or IPv6 address.
+- aid: seon:aml-api
+  name: SEON AML API
+  tags:
+  - AML
+  - Sanctions
+  - Compliance
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/aml-api
+  baseURL: https://api.seon.io/SeonRestService/aml-api/v1
+  properties:
+  - url: https://docs.seon.io/api-reference/aml-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/aml-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Screens a person against sanctions, watchlists, crime lists, politically
+    exposed persons (PEP), and adverse-media sources, returning per-category match
+    flags and a result payload for anti-money-laundering compliance.
+- aid: seon:transaction-label-api
+  name: SEON Scoring / Labels API
+  tags:
+  - Labels
+  - Scoring
+  - Machine Learning
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/api-reference/label-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/transaction-label/v2
+  properties:
+  - url: https://docs.seon.io/api-reference/label-api
+    type: Documentation
+  - url: https://docs.seon.io/api-reference/label-api
+    type: APIReference
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Applies fraud-outcome labels (such as fraud_detection_fraud) to up to
+    50 previously scored transactions per request, feeding SEON's machine-learning
+    models so future fraud scores improve over time.
+- aid: seon:device-fingerprint
+  name: SEON Device Fingerprint
+  tags:
+  - Device Intelligence
+  - Fingerprinting
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.seon.io/integration/device-intelligence
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  properties:
+  - url: https://docs.seon.io/integration/device-intelligence
+    type: Documentation
+  - url: https://github.com/seontechnologies/seon-web-sdk-public
+    type: GitHub
+  - url: openapi/seon-openapi.yml
+    type: OpenAPI
+  - url: collections/seon.postman_collection.json
+    type: PostmanCollection
+  - url: collections/seon.opencollection.json
+    type: OpenCollection
+  description: Web, iOS, and Android SDKs capture an encrypted, base64-encoded device
+    fingerprint via getSession(); the payload is passed in the Fraud API session field
+    and decoded server-side into device_details intelligence covering hardware, browser,
+    emulator, and tampering signals.
+common:
+- type: GitHubOrganization
+  url: https://github.com/seontechnologies
+- type: LinkedIn
+  url: https://www.linkedin.com/company/seon-tech
+- type: Website
+  url: https://seon.io/
+- type: Documentation
+  url: https://docs.seon.io
+- type: Plans
+  url: plans/seon-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/seon-rate-limits.yml
+- type: FinOps
+  url: finops/seon-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

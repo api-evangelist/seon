@@ -1,0 +1,119 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: SEON
+providerId: seon
+created: '2026-06-25'
+modified: '2026-06-25'
+reconciled: false
+tags:
+- Fraud Prevention
+- Risk Scoring
+- Digital Footprint
+- AML
+- Identity
+- Plans
+description: >-
+  SEON packages its fraud-prevention platform and APIs into a self-serve
+  Starter subscription and a custom-quoted Premium tier, plus a no-commitment
+  free trial. Starter is a flat monthly subscription that bundles a fixed
+  monthly allotment of fraud-check API calls; Premium is custom-priced with
+  unlimited calls and adds Case Management, AML compliance, and Managed Risk
+  Services. Published Starter pricing has historically been quoted around
+  USD 699/month for 2,500 fraud checks, but exact figures change - confirm
+  current numbers with SEON.
+notes: >-
+  Plan names (Free Trial, Starter, Premium) are reconciled from SEON's public
+  pricing page; specific Starter price and call allotment are indicative and
+  marked reconciled:false because SEON adjusts these and steers most buyers to
+  a custom quote.
+sources:
+- https://seon.io/pricing/
+- https://docs.seon.io
+plans:
+- id: seon-free-trial
+  name: Free Trial
+  type: trial
+  description: >-
+    No-commitment trial that provides platform and API access to evaluate
+    SEON's fraud-prevention capabilities before purchase.
+  entries:
+  - label: Trial Access
+    name: trial
+    type: trial
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free during trial period
+    userMultiplied: false
+  elements:
+  - name: Platform Access
+  - name: API Access
+  - name: Email API
+  - name: Phone API
+  - name: IP API
+- id: seon-starter
+  name: Starter
+  type: subscription
+  description: >-
+    Self-serve monthly subscription for small and medium businesses, bundling
+    a fixed monthly allotment of fraud-check API calls with platform and API
+    access, basic monitoring, and standard reporting.
+  entries:
+  - label: Monthly Subscription
+    name: starter_subscription
+    type: flat
+    metric: contract
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$699/month (confirm current pricing)
+    userMultiplied: false
+  - label: Fraud Checks
+    name: starter_fraud_checks
+    type: usage
+    metric: requests
+    limit: 2500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription up to monthly cap
+    userMultiplied: false
+  elements:
+  - name: Platform & API Access
+  - name: Up to 10 Users
+  - name: Up to 50 Custom Rules
+  - name: Basic Monitoring
+  - name: Standard Reporting
+- id: seon-premium
+  name: Premium
+  type: enterprise
+  description: >-
+    Custom-priced enterprise tier with unlimited API calls, unlimited users
+    and custom rules, Case Management, AML compliance, advanced monitoring and
+    reporting, dedicated implementation, 24/7 support, and Managed Risk
+    Services. Contact SEON sales.
+  entries:
+  - label: Custom Agreement
+    name: premium
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Unlimited Fraud Checks
+  - name: Unlimited Users & Custom Rules
+  - name: Case Management
+  - name: AML Compliance
+  - name: Managed Risk Services
+  - name: Dedicated Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

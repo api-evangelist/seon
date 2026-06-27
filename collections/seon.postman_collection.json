@@ -1,0 +1,136 @@
+{
+  "info": {
+    "name": "SEON REST API",
+    "description": "SEON fraud-prevention and AML APIs (SeonRestService). All requests authenticate with an X-API-KEY header. Set the api_key and base_url variables before sending.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "https://api.seon.io", "type": "string" },
+    { "key": "api_key", "value": "YOUR_LICENSE_KEY", "type": "string" }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-API-KEY", "type": "string" },
+      { "key": "value", "value": "{{api_key}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "item": [
+    {
+      "name": "Fraud API",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"config\": {\n    \"ip\": { \"include\": \"flags,history,id\" },\n    \"email\": { \"include\": \"flags,history,id\" },\n    \"phone\": { \"include\": \"flags,history,id\" }\n  },\n  \"email\": \"user@example.com\",\n  \"phone_number\": \"+1234567890\",\n  \"ip\": \"1.1.1.1\",\n  \"transaction_amount\": 100.0,\n  \"transaction_currency\": \"USD\",\n  \"session\": \"ENCRYPTED_DEVICE_FINGERPRINT\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/fraud-api/v2.0",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "fraud-api", "v2.0"]
+        },
+        "description": "Combined fraud scoring; returns fraud_score, state, and applied_rules."
+      }
+    },
+    {
+      "name": "Email API",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/email-api/v3",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "email-api", "v3"]
+        },
+        "description": "Email enrichment and risk scoring."
+      }
+    },
+    {
+      "name": "Phone API",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"+1234567890\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/phone-api/v2",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "phone-api", "v2"]
+        },
+        "description": "Phone enrichment and risk scoring."
+      }
+    },
+    {
+      "name": "IP API",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/ip-api/v1/1.1.1.1",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "ip-api", "v1", "1.1.1.1"]
+        },
+        "description": "IP intelligence; the IP address is supplied in the path."
+      }
+    },
+    {
+      "name": "AML API",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_fullname\": \"John Doe\",\n  \"user_dob\": \"1980-01-01\",\n  \"user_country\": \"US\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/aml-api/v1",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "aml-api", "v1"]
+        },
+        "description": "AML screening against PEP, sanctions, crime, watchlist, and adverse-media sources."
+      }
+    },
+    {
+      "name": "Label Transactions",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-KEY", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transactions\": [\n    { \"transaction_id\": \"txn_123\", \"label\": \"fraud_detection_fraud\" }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/SeonRestService/fraud-api/transaction-label/v2",
+          "host": ["{{base_url}}"],
+          "path": ["SeonRestService", "fraud-api", "transaction-label", "v2"]
+        },
+        "description": "Label up to 50 scored transactions to feed the Scoring Engine."
+      }
+    }
+  ]
+}
