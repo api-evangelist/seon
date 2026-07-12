@@ -182,6 +182,12 @@ apis:
     and decoded server-side into device_details intelligence covering hardware, browser,
     emulator, and tampering signals.
 common:
+- type: TrustCenter
+  url: security/seon-trust-center.yml
+- type: DomainSecurity
+  url: security/seon-domain-security.yml
+- type: Authentication
+  url: authentication/seon-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/seontechnologies
 - type: LinkedIn
