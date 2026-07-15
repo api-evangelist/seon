@@ -182,6 +182,8 @@ apis:
     and decoded server-side into device_details intelligence covering hardware, browser,
     emulator, and tampering signals.
 common:
+- type: AgenticAccess
+  url: agentic-access/seon-agentic-access.yml
 - type: TrustCenter
   url: security/seon-trust-center.yml
 - type: DomainSecurity
