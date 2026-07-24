@@ -1,0 +1,121 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML Email API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: Email
+  description: Email address digital footprint and risk scoring.
+paths:
+  /SeonRestService/email-api/v3:
+    post:
+      operationId: analyzeEmail
+      tags:
+      - Email
+      summary: Analyze an email address
+      description: Returns the digital footprint behind an email address, including deliverability, domain details, breach history, registration across 250+ online platforms, and a machine-learning risk score.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+      responses:
+        '200':
+          description: Email analysis result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    EmailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            email:
+              type: string
+            score:
+              type: number
+            deliverable:
+              type: boolean
+            domain_details:
+              type: object
+            account_details:
+              type: object
+              description: Registration on 250+ online platforms.
+            breach_details:
+              type: object
+            applied_rules:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppliedRule'
+    EmailRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+        config:
+          type: object
+    AppliedRule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        operation:
+          type: string
+        score:
+          type: number
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.

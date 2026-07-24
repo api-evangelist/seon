@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML Labels API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: Labels
+  description: Transaction outcome labeling for machine-learning feedback.
+paths:
+  /SeonRestService/fraud-api/transaction-label/v2:
+    put:
+      operationId: labelTransactions
+      tags:
+      - Labels
+      summary: Label scored transactions
+      description: Applies fraud-outcome labels (such as fraud_detection_fraud) to up to 50 previously scored transactions per request, feeding SEON's machine-learning models. A transaction can hold a single label at a time; existing labels can be overwritten.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelRequest'
+      responses:
+        '200':
+          description: Labeling result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  schemas:
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    LabelRequest:
+      type: object
+      required:
+      - transactions
+      properties:
+        transactions:
+          type: array
+          maxItems: 50
+          items:
+            type: object
+            required:
+            - transaction_id
+            - label
+            properties:
+              transaction_id:
+                type: string
+              label:
+                type: string
+                description: A predefined label value such as fraud_detection_fraud or bnpl_credit_risk_default.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.

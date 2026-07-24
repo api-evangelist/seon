@@ -1,0 +1,120 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML Phone API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: Phone
+  description: Phone number digital footprint and risk scoring.
+paths:
+  /SeonRestService/phone-api/v2:
+    post:
+      operationId: analyzePhone
+      tags:
+      - Phone
+      summary: Analyze a phone number
+      description: Returns the digital footprint behind a phone number, including carrier and HLR details, CNAM, telco attributes such as SIM-swap and porting history, account aggregates, and a global network risk score.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneRequest'
+      responses:
+        '200':
+          description: Phone analysis result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    PhoneRequest:
+      type: object
+      required:
+      - phone
+      properties:
+        phone:
+          type: string
+        config:
+          type: object
+    PhoneResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            phone:
+              type: string
+            score:
+              type: number
+            account_details:
+              type: object
+            carrier_details:
+              type: object
+            hlr_details:
+              type: object
+            cnam_details:
+              type: object
+            applied_rules:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppliedRule'
+    AppliedRule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        operation:
+          type: string
+        score:
+          type: number
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.

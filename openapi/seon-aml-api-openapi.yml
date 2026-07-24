@@ -1,0 +1,122 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: AML
+  description: Sanctions, watchlist, PEP, and adverse-media screening.
+paths:
+  /SeonRestService/aml-api/v1:
+    post:
+      operationId: screenAml
+      tags:
+      - AML
+      summary: Screen a person for AML risk
+      description: Screens a person against sanctions, watchlists, crime lists, politically exposed persons (PEP), and adverse-media sources, returning per-category match flags and a result payload.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmlRequest'
+      responses:
+        '200':
+          description: AML screening result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmlResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  schemas:
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    AmlRequest:
+      type: object
+      required:
+      - user_fullname
+      properties:
+        user_fullname:
+          type: string
+        user_id:
+          type: string
+        user_firstname:
+          type: string
+        user_middlename:
+          type: string
+        user_lastname:
+          type: string
+        user_dob:
+          type: string
+          format: date
+        user_pob:
+          type: string
+        user_photoid_number:
+          type: string
+        user_country:
+          type: string
+        config:
+          type: object
+    AmlResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+          properties:
+            has_sanction_match:
+              type: boolean
+            has_watchlist_match:
+              type: boolean
+            has_crimelist_match:
+              type: boolean
+            has_pep_match:
+              type: boolean
+            has_adversemedia_match:
+              type: boolean
+            local_aml_match:
+              type: object
+            result_payload:
+              type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.

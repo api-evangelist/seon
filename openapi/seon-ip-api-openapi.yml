@@ -1,0 +1,142 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML IP API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: IP
+  description: IP address proxy/VPN/Tor detection and risk scoring.
+paths:
+  /SeonRestService/ip-api/v1/{ip}:
+    get:
+      operationId: analyzeIp
+      tags:
+      - IP
+      summary: Analyze an IP address
+      description: Detects fake, harmful, and suspicious IP addresses - including Tor, VPN, web, public, data-center, and residential proxies - with geolocation, ISP, open ports, and a risk score for a given IPv4 or IPv6 address.
+      parameters:
+      - name: ip
+        in: path
+        required: true
+        description: Full IPv4 or IPv6 address to analyze.
+        schema:
+          type: string
+      - name: include
+        in: query
+        required: false
+        description: Comma-separated extra data sets to include (history, flags, id).
+        schema:
+          type: string
+      - name: flags_timeframe_days
+        in: query
+        required: false
+        description: Number of days of flag history to include.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: IP analysis result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  schemas:
+    AppliedRule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        operation:
+          type: string
+        score:
+          type: number
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    IpResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            ip:
+              type: string
+            score:
+              type: number
+            country:
+              type: string
+            city:
+              type: string
+            isp_name:
+              type: string
+            type:
+              type: string
+            open_ports:
+              type: array
+              items:
+                type: integer
+            tor:
+              type: boolean
+            harmful:
+              type: boolean
+            vpn:
+              type: boolean
+            web_proxy:
+              type: boolean
+            public_proxy:
+              type: boolean
+            data_center_proxy:
+              type: boolean
+            residential_proxy:
+              type: boolean
+            applied_rules:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppliedRule'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.

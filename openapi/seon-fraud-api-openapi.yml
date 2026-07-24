@@ -1,0 +1,158 @@
+openapi: 3.0.1
+info:
+  title: SEON REST AML Fraud API
+  description: SEON's fraud prevention and anti-money-laundering REST API. Combines digital-footprint analysis, device fingerprinting, and machine-learning risk scoring to return real-time fraud scores and enriched intelligence from an email address, phone number, IP address, or full transaction payload, plus AML screening and transaction labeling. All requests authenticate with an X-API-KEY header and are case-sensitive.
+  termsOfService: https://seon.io/legal/terms-and-conditions/
+  contact:
+    name: SEON Support
+    email: support@seon.io
+    url: https://docs.seon.io
+  version: '2.0'
+servers:
+- url: https://api.seon.io
+  description: Primary (EU) transaction processing environment
+security:
+- ApiKeyAuth: []
+tags:
+- name: Fraud
+  description: Combined transaction fraud scoring.
+paths:
+  /SeonRestService/fraud-api/v2.0:
+    post:
+      operationId: scoreFraud
+      tags:
+      - Fraud
+      summary: Score a transaction for fraud
+      description: Submits a combined transaction payload (user, transaction, payment, device, email, phone, and IP signals) and returns a fraud_score, a state decision, and the applied_rules that fired, enriched with module details for email, phone, IP, BIN, device, and AML.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FraudRequest'
+      responses:
+        '200':
+          description: Fraud scoring result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FraudResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    FraudResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            state:
+              type: string
+              description: Decision such as APPROVE, REVIEW, or DECLINE.
+            fraud_score:
+              type: number
+            applied_rules:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppliedRule'
+            calculation_time:
+              type: integer
+              description: Processing time in milliseconds.
+            email_details:
+              type: object
+            phone_details:
+              type: object
+            ip_details:
+              type: object
+            bin_details:
+              type: object
+            device_details:
+              type: object
+            aml_details:
+              type: object
+    FraudRequest:
+      type: object
+      properties:
+        config:
+          type: object
+          description: Per-module configuration controlling which enrichments run.
+        ip:
+          type: string
+          description: IP address associated with the transaction.
+        email:
+          type: string
+          description: Email address associated with the user.
+        phone_number:
+          type: string
+          description: Phone number in international format.
+        user_fullname:
+          type: string
+        user_id:
+          type: string
+        transaction_id:
+          type: string
+          maxLength: 255
+        transaction_amount:
+          type: number
+        transaction_currency:
+          type: string
+          maxLength: 4
+        card_hash:
+          type: string
+          maxLength: 500
+        card_bin:
+          type: string
+          maxLength: 15
+        session:
+          type: string
+          description: Device fingerprinting session payload.
+        custom_fields:
+          type: object
+          description: Arbitrary key/value pairs used in custom rules.
+    AppliedRule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        operation:
+          type: string
+        score:
+          type: number
+    GenericResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed - missing or invalid X-API-KEY.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: SEON license key sent as the X-API-KEY request header.
