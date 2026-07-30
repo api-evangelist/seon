@@ -7,7 +7,20 @@ description: SEON provides fraud prevention and anti-money-laundering APIs that 
   The SEON REST API returns real-time fraud scores and enriched intelligence from an
   email address, phone number, or IP address, plus a combined transaction Fraud API
   and AML screening, accessed over HTTPS with an X-API-KEY header.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: true
+  try_now: true
+  public: false
+  label: Freemium (free trial) · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/seon.png
 tags:
 - Fraud Prevention
 - Risk Scoring
@@ -18,169 +31,258 @@ created: '2026-06-25'
 modified: '2026-06-25'
 specificationVersion: '0.19'
 apis:
-- aid: seon:fraud-api
-  name: SEON Fraud API
-  tags:
-  - Fraud
-  - Risk Scoring
-  - Transactions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: seon:seon-aml-api
+  name: SEON AML API
+  description: Sanctions, watchlist, PEP, and adverse-media screening.
   humanURL: https://docs.seon.io/api-reference/fraud-api
   baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
-  properties:
-  - url: https://docs.seon.io/api-reference/fraud-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/fraud-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Combined end-to-end fraud scoring endpoint that ingests user, transaction,
-    payment, device, email, phone, and IP signals and returns a fraud_score, a state
-    decision, and the applied_rules that fired, enriched with email, phone, IP, BIN,
-    device, and AML details modules.
-- aid: seon:email-api
-  name: SEON Email API
-  tags:
-  - Email
-  - Digital Footprint
-  - Enrichment
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/api-reference/email-api
-  baseURL: https://api.seon.io/SeonRestService/email-api/v3
-  properties:
-  - url: https://docs.seon.io/api-reference/email-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/email-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Unlocks the digital footprint behind an email address - deliverability,
-    domain details, breach history, and registration on 250+ online platforms - returning
-    a machine-learning risk score and account aggregates.
-- aid: seon:phone-api
-  name: SEON Phone API
-  tags:
-  - Phone
-  - Digital Footprint
-  - Enrichment
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/api-reference/phone-api
-  baseURL: https://api.seon.io/SeonRestService/phone-api/v2
-  properties:
-  - url: https://docs.seon.io/api-reference/phone-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/phone-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Returns the digital footprint behind a phone number, including carrier
-    and HLR details, CNAM, telco attributes such as SIM-swap and porting history, account
-    aggregates, and a global network risk score.
-- aid: seon:ip-api
-  name: SEON IP API
-  tags:
-  - IP
-  - Proxy Detection
-  - Enrichment
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/api-reference/ip-api
-  baseURL: https://api.seon.io/SeonRestService/ip-api/v1
-  properties:
-  - url: https://docs.seon.io/api-reference/ip-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/ip-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Detects fake, harmful, and suspicious IP addresses - including Tor, VPN,
-    web, public, data-center, and residential proxies - with geolocation, ISP, open
-    ports, and a risk score for a given IPv4 or IPv6 address.
-- aid: seon:aml-api
-  name: SEON AML API
   tags:
   - AML
-  - Sanctions
-  - Compliance
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/api-reference/aml-api
-  baseURL: https://api.seon.io/SeonRestService/aml-api/v1
   properties:
-  - url: https://docs.seon.io/api-reference/aml-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/aml-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Screens a person against sanctions, watchlists, crime lists, politically
-    exposed persons (PEP), and adverse-media sources, returning per-category match
-    flags and a result payload for anti-money-laundering compliance.
-- aid: seon:transaction-label-api
-  name: SEON Scoring / Labels API
+  - type: OpenAPI
+    url: openapi/seon-aml-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
+- aid: seon:seon-email-api
+  name: SEON Email API
+  description: Email address digital footprint and risk scoring.
+  humanURL: https://docs.seon.io/api-reference/fraud-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  tags:
+  - Email
+  properties:
+  - type: OpenAPI
+    url: openapi/seon-email-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
+- aid: seon:seon-fraud-api
+  name: SEON Fraud API
+  description: Combined transaction fraud scoring.
+  humanURL: https://docs.seon.io/api-reference/fraud-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  tags:
+  - Fraud
+  properties:
+  - type: OpenAPI
+    url: openapi/seon-fraud-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
+- aid: seon:seon-ip-api
+  name: SEON IP API
+  description: IP address proxy/VPN/Tor detection and risk scoring.
+  humanURL: https://docs.seon.io/api-reference/fraud-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  tags:
+  - IP
+  properties:
+  - type: OpenAPI
+    url: openapi/seon-ip-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
+- aid: seon:seon-labels-api
+  name: SEON Labels API
+  description: Transaction outcome labeling for machine-learning feedback.
+  humanURL: https://docs.seon.io/api-reference/fraud-api
+  baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
   tags:
   - Labels
-  - Scoring
-  - Machine Learning
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/api-reference/label-api
-  baseURL: https://api.seon.io/SeonRestService/fraud-api/transaction-label/v2
   properties:
-  - url: https://docs.seon.io/api-reference/label-api
-    type: Documentation
-  - url: https://docs.seon.io/api-reference/label-api
-    type: APIReference
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Applies fraud-outcome labels (such as fraud_detection_fraud) to up to
-    50 previously scored transactions per request, feeding SEON's machine-learning
-    models so future fraud scores improve over time.
-- aid: seon:device-fingerprint
-  name: SEON Device Fingerprint
-  tags:
-  - Device Intelligence
-  - Fingerprinting
-  - SDK
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.seon.io/integration/device-intelligence
+  - type: OpenAPI
+    url: openapi/seon-labels-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
+- aid: seon:seon-phone-api
+  name: SEON Phone API
+  description: Phone number digital footprint and risk scoring.
+  humanURL: https://docs.seon.io/api-reference/fraud-api
   baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
+  tags:
+  - Phone
   properties:
-  - url: https://docs.seon.io/integration/device-intelligence
-    type: Documentation
-  - url: https://github.com/seontechnologies/seon-web-sdk-public
-    type: GitHub
-  - url: openapi/seon-openapi.yml
-    type: OpenAPI
-  - url: collections/seon.postman_collection.json
-    type: PostmanCollection
-  - url: collections/seon.opencollection.json
-    type: OpenCollection
-  description: Web, iOS, and Android SDKs capture an encrypted, base64-encoded device
-    fingerprint via getSession(); the payload is passed in the Fraud API session field
-    and decoded server-side into device_details intelligence covering hardware, browser,
-    emulator, and tampering signals.
+  - type: OpenAPI
+    url: openapi/seon-phone-api-openapi.yml
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/fraud-api
+  - type: PostmanCollection
+    url: collections/seon.postman_collection.json
+  - type: OpenCollection
+    url: collections/seon.opencollection.json
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/email-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/email-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/phone-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/ip-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/aml-api
+  - type: Documentation
+    url: https://docs.seon.io/api-reference/label-api
+  - type: APIReference
+    url: https://docs.seon.io/api-reference/label-api
+  - type: Documentation
+    url: https://docs.seon.io/integration/device-intelligence
+  - type: GitHub
+    url: https://github.com/seontechnologies/seon-web-sdk-public
 common:
 - type: AgenticAccess
   url: agentic-access/seon-agentic-access.yml
