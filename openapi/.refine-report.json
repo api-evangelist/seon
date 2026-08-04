@@ -1,0 +1,24 @@
+{
+  "provider": "seon",
+  "sources": [
+    "seon-aml-api-openapi.yml",
+    "seon-email-api-openapi.yml",
+    "seon-fraud-api-openapi.yml",
+    "seon-ip-api-openapi.yml",
+    "seon-labels-api-openapi.yml",
+    "seon-phone-api-openapi.yml"
+  ],
+  "outputs": [
+    "seon-aml-api-openapi.yml",
+    "seon-email-api-openapi.yml",
+    "seon-fraud-api-openapi.yml",
+    "seon-ip-api-openapi.yml",
+    "seon-labels-api-openapi.yml",
+    "seon-phone-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
