@@ -121,6 +121,8 @@ apis:
   humanURL: https://docs.seon.io/api-reference/fraud-api
   baseURL: https://api.seon.io/SeonRestService/fraud-api/v2.0
   tags:
+  - Fraud Prevention
+  tags_raw:
   - Fraud
   properties:
   - type: OpenAPI
